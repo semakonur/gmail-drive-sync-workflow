@@ -1,0 +1,145 @@
+{
+  "name": "gmail-drive-sync-workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "getAll",
+        "additionalFields": {
+          "format": "resolved",
+          "labelIds": [
+            "Label_1819449526183990002"
+          ]
+        }
+      },
+      "name": "Gmail1",
+      "type": "n8n-nodes-base.gmail",
+      "position": [
+        -220,
+        -40
+      ],
+      "typeVersion": 1,
+      "id": "1b1bb571-fec9-4858-80d8-0f475162f37c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": null,
+          "name": "Gmail"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "binaryData": true,
+        "binaryPropertyName": "attachment_0",
+        "name": "={{$binary.attachment_0.fileName}}",
+        "resolveData": true,
+        "parents": [
+          "1I-tBNWFhH2FwcyiKeBOcGseWktF-nXBr"
+        ],
+        "options": {}
+      },
+      "name": "Upload File1",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        80,
+        -40
+      ],
+      "typeVersion": 1,
+      "id": "5c5ed6ac-c25a-4edc-a478-3c4caaf5ca03",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": null,
+          "name": "Google Drive OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "mp4_attachment",
+              "value": "={{$json[\"webViewLink\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Get attachment Link",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        280,
+        -40
+      ],
+      "typeVersion": 1,
+      "id": "f8a00709-d154-4293-954f-e02f50738fdc"
+    },
+    {
+      "parameters": {
+        "content": "Lists/reads emails.",
+        "height": 220,
+        "width": 280
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        -80
+      ],
+      "id": "f077abee-0ae4-44ac-ac51-6a631477291a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Attachments are uploaded to the specified folder in Drive and metadata is added.",
+        "height": 220,
+        "width": 520
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -80
+      ],
+      "id": "faea76dc-f8c1-4888-81f2-d6e5863d96cb",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail1": {
+      "main": [
+        [
+          {
+            "node": "Upload File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload File1": {
+      "main": [
+        [
+          {
+            "node": "Get attachment Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c6ee3276-29d8-4dc6-8630-5ae2c14470d6",
+  "meta": {
+    "instanceId": "d60051a71a30e5e68080d1659e6ad99b98c8324a0bde62b5f6da789faf69ec5f"
+  },
+  "id": "LhbcPNcmhQciM8pr",
+  "tags": []
+}
